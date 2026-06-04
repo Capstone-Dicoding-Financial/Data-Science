@@ -396,17 +396,13 @@ with tab1:
     for data, label, color in [(data_a, label_a, COL_A), (data_b, label_b, COL_B)]:
         fig_v.add_trace(go.Violin(
             y=data/1e6 if metric_col not in ["jumlah_invoice","total_item"] else data,
-            name=label, line_color=color,
-            fillcolor=color.replace("fe","fe")+"44",
-            box_visible=True, meanline_visible=True, opacity=0.7,
+            name=label, 
+            line_color=color,
+            fillcolor=color, # ✅ Cukup masukkan variabel 'color' secara langsung
+            box_visible=True, 
+            meanline_visible=True, 
+            opacity=0.7,
         ))
-    fig_v.update_layout(
-        template="plotly_dark", paper_bgcolor=DARK, plot_bgcolor=PLOT,
-        height=320, margin=dict(l=0,r=0,t=10,b=0),
-        yaxis_title=f"{metric_label} {yunit}",
-        font=dict(family="Plus Jakarta Sans"),
-    )
-    st.plotly_chart(fig_v, use_container_width=True)
 
 # ─── TAB 2: Confidence Interval ──────────────────────────────────────────────
 with tab2:
