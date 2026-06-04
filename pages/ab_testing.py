@@ -328,19 +328,47 @@ tab1, tab2, tab3, tab4 = st.tabs([
 
 # ── TAB 1: Distribusi & Boxplot ───────────────────────────────────────────────
 with tab1:
-    fig = make_subplots(rows=1, cols=2, horizontal_spacing=0.08,
-        subplot_titles=[f"Distribusi Harian — {metric_label}", f"Boxplot — {metric_label}"])
     scale_u = metric_col not in ["jumlah_invoice","total_item"]
+    yunit   = "(Juta Rp)" if scale_u else ""
+
+    # ── Histogram (kiri) ─────────────────────────────────────────────────────
+    st.markdown(f'<div class="section-header">Distribusi Harian — {metric_label} {yunit}</div>', unsafe_allow_html=True)
+    fig_hist2 = go.Figure()
     for data, label, color in [(data_a, label_a, COL_A), (data_b, label_b, COL_B)]:
         y = data/1e6 if scale_u else data
-        fig.add_trace(go.Histogram(x=y, name=label, opacity=0.65, marker_color=color, nbinsx=40), row=1, col=1)
-        fig.add_trace(go.Box(y=y, name=label, marker_color=color, boxmean="sd", boxpoints="outliers", line=dict(width=1.5)), row=1, col=2)
-    fig.update_layout(
+        fig_hist2.add_trace(go.Histogram(
+            x=y, name=label, opacity=0.65,
+            marker_color=color, nbinsx=40,
+        ))
+    fig_hist2.update_layout(
         template=PTMPL, paper_bgcolor=PAPER, plot_bgcolor=PLOT,
-        height=380, barmode="overlay", margin=dict(l=0,r=0,t=40,b=0),
-        legend=dict(orientation="h", y=1.08), font=dict(family=FONT),
+        height=300, barmode="overlay",
+        margin=dict(l=0, r=0, t=10, b=0),
+        xaxis_title=f"{metric_label} {yunit}",
+        yaxis_title="Frekuensi",
+        legend=dict(orientation="h", y=-0.22, x=0.5, xanchor="center"),
+        font=dict(family=FONT),
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig_hist2, use_container_width=True)
+
+    # ── Boxplot (kanan) ──────────────────────────────────────────────────────
+    st.markdown(f'<div class="section-header">Boxplot — {metric_label} {yunit}</div>', unsafe_allow_html=True)
+    fig_box2 = go.Figure()
+    for data, label, color in [(data_a, label_a, COL_A), (data_b, label_b, COL_B)]:
+        y = data/1e6 if scale_u else data
+        fig_box2.add_trace(go.Box(
+            y=y, name=label, marker_color=color,
+            boxmean="sd", boxpoints="outliers",
+            line=dict(width=1.5),
+        ))
+    fig_box2.update_layout(
+        template=PTMPL, paper_bgcolor=PAPER, plot_bgcolor=PLOT,
+        height=300, margin=dict(l=0, r=0, t=10, b=0),
+        yaxis_title=f"{metric_label} {yunit}",
+        legend=dict(orientation="h", y=-0.22, x=0.5, xanchor="center"),
+        font=dict(family=FONT),
+    )
+    st.plotly_chart(fig_box2, use_container_width=True)
 
     st.markdown('<div class="section-header">Violin Plot — Sebaran Lengkap</div>', unsafe_allow_html=True)
     fig_v = go.Figure()
