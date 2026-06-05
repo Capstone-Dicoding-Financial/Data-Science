@@ -3,7 +3,7 @@
 **Sistem Informasi Manajemen Keuangan UMKM Terintegrasi**  
 Coding Camp 2026 powered by DBS Foundation · Tim **CC26-PSU367**
 
-[![Streamlit App]([https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://umkm-finance.streamlit.app](https://data-sciencegit-pyxfhoatmwrpe2sq8iekei.streamlit.app/))
+[[Streamlit App]([https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://umkm-finance.streamlit.app](https://data-sciencegit-pyxfhoatmwrpe2sq8iekei.streamlit.app/))
 
 ---
 
